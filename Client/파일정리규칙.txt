@@ -1,0 +1,12 @@
+External - 외부 플러그인 및 프로그램
+Scene - 씬
+Shader - 셰이더 관련 코드들이 들어갑니다.
+Script - 코드
+	Common  - 해당 게임뿐만아니라 다른 프로젝트에서 공용적으로 사용할 수 있을만한 코드
+	Content - 해당 게임 자체에 집적적으로 관련된 코드
+Resource - 리소스 (그림파일,사운드 등등)
+	Sprite - 스프라이트
+UnityObject - 프리팹, 애니메이터, 머테리얼 등등 유니티를 통해 만들어진 요소
+	Animation 	- Animator, AnimationController등을 공용으로 관리합니다.
+	Atlas 		- Atlas파일들을 모아둡니다.
+	Prefab		- Prefab파일들을 모아둡니다.
