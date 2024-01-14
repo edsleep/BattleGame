@@ -17,8 +17,12 @@ public partial class Player : MonoBehaviour
     private bool m_IsGorund = false;
     private Vector2 m_InputDir = Vector2.right;
 
+    public Vector2 m_collider_bottom = Vector2.right;
+
+
     //플레이어
     Rigidbody2D m_Rigibody = null;
+    Collider2D m_Collider2D = null;
     Animator m_Animator = null;
     SpriteRenderer m_SpriteRenderer = null;
 
@@ -66,6 +70,50 @@ public partial class Player : MonoBehaviour
             DOWN,
             PRESS,
             UP
+        }
+    }
+
+    void Start()
+    {
+        m_Rigibody = GetComponent<Rigidbody2D>();
+        m_Animator = GetComponent<Animator>();
+        m_StateMachine.SetStateChangeCallback(() => { m_IsCancleTiming = false; });
+        m_StateMachine.ChangeState(this, new StateIdle());
+        m_SpriteRenderer = GetComponent<SpriteRenderer>();
+        m_Collider2D = GetComponent<Collider2D>();
+    }
+
+    void Update()
+    {
+        RefreshInputInfo();
+        m_InputDir = m_inputInfo.inputDir;
+        m_StateMachine.UpdateState(this);
+
+
+        Vector2 pos = ((Vector2)transform.position + m_collider_bottom);
+        RaycastHit2D[] asdf = Physics2D.RaycastAll(pos, Vector2.down, 1);
+        Debug.DrawLine(pos, pos  + Vector2.down, Color.red);
+        foreach (var dd in asdf)
+        {
+            if (0 != dd.transform.tag.CompareTo("Ground"))
+            {
+                Vector3 player_pos = transform.position;
+                float a = transform.position.x - dd.transform.position.x;
+                if (0 <= a)
+                {
+                    transform.position = player_pos + new Vector3(0.05f, 0, 0);
+                }
+                else
+                {
+                    transform.position = player_pos + new Vector3(-0.05f, 0, 0);
+                }
+            }
+        }
+
+
+        if (Input.GetKey(KeyCode.Q))
+        {
+            CreateSpriteTrail();
         }
     }
 
@@ -152,28 +200,6 @@ public partial class Player : MonoBehaviour
             m_IsGorund = false;
     }
 
-    void Start()
-    {
-        m_Rigibody = GetComponent<Rigidbody2D>();
-        m_Animator = GetComponent<Animator>();
-        m_StateMachine.SetStateChangeCallback(() => { m_IsCancleTiming = false; });
-        m_StateMachine.ChangeState(this, new StateIdle());
-        m_SpriteRenderer = GetComponent<SpriteRenderer>();
-    }
-
-    void Update()
-    {
-        RefreshInputInfo();
-        m_InputDir = m_inputInfo.inputDir;
-        m_StateMachine.UpdateState(this);
-
-
-        if (Input.GetKey(KeyCode.Q))
-        {
-            CreateSpriteTrail();
-        }
-    }
-
     void UpdateTrail()
     {
 
@@ -183,9 +209,6 @@ public partial class Player : MonoBehaviour
     {
 
     }
-
-
-
 
     void CreateSpriteTrail()
     {
