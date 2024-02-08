@@ -1,9 +1,8 @@
 using UnityEngine;
 using StateSystem;
 using EasingLerp;
-using Unity.VisualScripting;
 
-public partial class Player : MonoBehaviour
+public partial class Player 
 {
 
     public class DashInfo

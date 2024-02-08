@@ -6,6 +6,8 @@ using System;
 
 public partial class Player : MonoBehaviour
 {
+    static public Player m_self;
+
     public float m_MoveSpeed = 10;
     public float m_JumpPower = 10;
     public float m_DashDistance = 10;
@@ -81,6 +83,7 @@ public partial class Player : MonoBehaviour
         m_StateMachine.ChangeState(this, new StateIdle());
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_Collider2D = GetComponent<Collider2D>();
+        m_self = this;
     }
 
     void Update()
